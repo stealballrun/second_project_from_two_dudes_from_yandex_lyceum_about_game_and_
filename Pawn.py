@@ -9,7 +9,7 @@ field =  [[None, None, None, None, None, None],
           [None, None, None, None, None, None, None, None],
           [None, None, None, None, None, None, None],
           [None, None, None, None, None, None]]
-class Pawn: # пешка
+class Pawn: # ГЇГҐГёГЄГ 
  
     def __init__(self, row, col, color):
         self.row = row
@@ -31,24 +31,26 @@ class Pawn: # пешка
         if self.col != col:
             return False
  
-        # Пешка может сделать из начального положения ход на 2 клетки
-        # вперёд, поэтому поместим индекс начального ряда в start_row.
+        # ГЏГҐГёГЄГ  Г¬Г®Г¦ГҐГІ Г±Г¤ГҐГ«Г ГІГј ГЁГ§ Г­Г Г·Г Г«ГјГ­Г®ГЈГ® ГЇГ®Г«Г®Г¦ГҐГ­ГЁГї ГµГ®Г¤ Г­Г  2 ГЄГ«ГҐГІГЄГЁ
+        # ГўГЇГҐГ°ВёГ¤, ГЇГ®ГЅГІГ®Г¬Гі ГЇГ®Г¬ГҐГ±ГІГЁГ¬ ГЁГ­Г¤ГҐГЄГ± Г­Г Г·Г Г«ГјГ­Г®ГЈГ® Г°ГїГ¤Г  Гў start_row.
         if self.color == WHITE:
             direction = 1
         else:
             direction = -1
  
-        # ход на 1 клетку
+        # ГµГ®Г¤ Г­Г  1 ГЄГ«ГҐГІГЄГі
         if self.row + direction == row:
             return True
  
-        # ход на 2 клетки из начального положения
+        # ГµГ®Г¤ Г­Г  2 ГЄГ«ГҐГІГЄГЁ ГЁГ§ Г­Г Г·Г Г«ГјГ­Г®ГЈГ® ГЇГ®Г«Г®Г¦ГҐГ­ГЁГї
         if self.row == start_row and self.row + 2 * direction == row:
             return True
  
         return False
     def can_eat(self, row, col):
-        if self.row == row and (self.col + 1 == col or self.col - 1 == col):
+        if self.row == row and (self.col + 1 == col or self.col - 1 == col) and direction == 1:
+            return True
+          if self.row - 1 == row and (self.col + 1 == col or self.col - 1 == col) and direction == -11:
             return True
         return False
     def check_Q(self, row, col):
