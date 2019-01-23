@@ -60,10 +60,11 @@ field =  [[None, None, None, None, None, None],
 
 class Pawn:
  
-    def __init__(self, col, row, color):
+    def __init__(self, col, row, color, N):
         self.row = row
         self.col = col
         self.color = color
+        self.N = N
         self.step = 0
  
     def set_position(self, col, row):
@@ -71,7 +72,7 @@ class Pawn:
         self.col = col
  
     def char(self):
-        return 'P'
+        return 'P', self.N
  
     def get_color(self):
         return self.color
