@@ -70,7 +70,11 @@ class King:
         return self.color
 
     def char(self):
-        return 'K', self.N
+        if self.color == WHITE:
+            ans = 'wK'
+        else:
+            ans = 'bK'
+        return (self.color - 1, self.N), ans, (self.col, self.row)
 
     def can_move(self, col, row):
         if self.row == row and (self.col + 1 == col or self.col - 1 == col):

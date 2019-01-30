@@ -70,7 +70,11 @@ class Knight:
         return self.color
 
     def char(self):
-        return 'N', self.N
+        if self.color == WHITE:
+            ans = 'wN'
+        else:
+            ans = 'bN'
+        return (self.color - 1, self.N), ans, (self.col, self.row)
 
     def can_move(self, col, row):
         c1, r1 = one[self.col][self.row]
@@ -107,4 +111,4 @@ class Knight:
         return self.can_move(self, col, row)
     
     def check_Q(self, col, row):
-        return False    
+        return False

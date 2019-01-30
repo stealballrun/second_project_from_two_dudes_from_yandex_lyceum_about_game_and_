@@ -67,12 +67,12 @@ class Pawn:
         self.N = N
         self.step = 0
  
-    def set_position(self, col, row):
-        self.row = row
-        self.col = col
- 
     def char(self):
-        return 'P', self.N
+        if self.color == WHITE:
+            ans = 'wP'
+        else:
+            ans = 'bP'
+        return (self.color - 1, self.N), ans, (self.col, self.row)
  
     def get_color(self):
         return self.color
@@ -89,7 +89,7 @@ class Pawn:
         if self.row + direction == row:
             return True
  
-        if self.step == 0 and self.row + 2 * direction == row:
+        if self.step == 0 and self.row + 2 * direction == row and field[self.col][self.row + direction] == None:
             return True
         
         return False
