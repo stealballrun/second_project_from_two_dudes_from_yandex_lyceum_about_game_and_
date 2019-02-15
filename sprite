@@ -1,0 +1,112 @@
+import os
+import random
+import pygame
+
+
+class figures(pygame.sprite.Sprite):
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_green = load_image("image_pawn_white_green.png")
+    image_pawn_white_red = load_image("image_pawn_white_red.png")
+    image_pawn_white_blue = load_image("image_pawn_white_blue.png")
+    image_pawn_black_green = load_image("image_pawn_black_green.png")
+    image_pawn_black_red = load_image("image_pawn_black_red.png")
+    image_pawn_black_blue = load_image("image_pawn_black_blue.png")    
+    
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_green = load_image("image_bishop_white_green.png")
+    image_bishop_white_red = load_image("image_bishop_white_red.png")
+    image_bishop_white_blue = load_image("image_bishop_white_blue.png")
+    image_bishop_black_green = load_image("image_bishop_black_green.png")
+    image_bishop_black_red = load_image("image_bishop_black_red.png")
+    image_bishop_black_blue = load_image("image_bishop_black_blue.png")     
+    
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_green = load_image("image_rook_white_green.png")
+    image_rook_white_red = load_image("image_rook_white_red.png")
+    image_rook_white_blue = load_image("image_rook_white_blue.png")
+    image_rook_black_green = load_image("image_rook_black_green.png")
+    image_rook_black_red = load_image("image_rook_black_red.png")
+    image_rook_black_blue = load_image("image_rook_black_blue.png") 
+    
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_green = load_image("image_knight_white_green.png")
+    image_knight_white_red = load_image("image_knight_white_red.png")
+    image_knight_white_blue = load_image("image_knight_white_blue.png")
+    image_knight_black_green = load_image("image_knight_black_green.png")
+    image_knight_black_red = load_image("image_knight_black_red.png")
+    image_knight_black_blue = load_image("image_knight_black_blue.png") 
+    
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_green = load_image("image_queen_white_green.png")
+    image_queen_white_red = load_image("image_queen_white_red.png")
+    image_queen_white_blue = load_image("image_queen_white_blue.png")
+    image_queen_black_green = load_image("image_queen_black_green.png")
+    image_queen_black_red = load_image("image_queen_black_red.png")
+    image_queen_black_blue = load_image("image_queen_black_blue.png") 
+    
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_green = load_image("image_king_white_green.png")
+    image_king_white_red = load_image("image_king_white_red.png")
+    image_king_white_blue = load_image("image_king_white_blue.png")
+    image_king_black_green = load_image("image_king_black_green.png")
+    image_king_black_red = load_image("image_king_black_red.png")
+    image_king_black_blue = load_image("image_king_black_blue.png")     
+
+    def __init__(self, group):
+        # НЕОБХОДИМО вызвать конструктор родительского класса Sprite
+        super().__init__(group)
+        self.image = figures.image    # здесь потом перечислю все фигуры, что сверху
+        #self.rect = self.image.get_rect() это не надо
+        # перемещаем прямоугольник
+        self.rect.topleft = ((random.randint(0, width - self.rect.width), random.randint(0, height - self.rect.height)))
+
+    # Поручим бомбочке получать событие и взрываться самой
+    def get_event(self, event):
+        if self.rect.collidepoint(event.pos):
+            self.image = self.image_boom # здесь кажадый кусок твоего кода от каждой темы, когда покажешь надо вместе сделать здесь
+
+
+# группа, содержащая все спрайты
+all_sprites = pygame.sprite.Group()
+
+for i in range(20):
+    # нам уже не нужно даже имя объекта!
+    figures(all_sprites)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for figures in all_sprites:
+                figures.get_event(event)
+    screen.fill(pygame.Color("black"))
+    all_sprites.draw(screen)
+    pygame.display.flip()
+
+pygame.quit()
