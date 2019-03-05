@@ -1,0 +1,191 @@
+import os
+import random
+
+import pygame
+
+size = width, height = 700, 700
+screen = pygame.display.set_mode(size)
+
+clock = pygame.time.Clock()
+x = [[None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None, None, None, None],
+                       ["king", None, None, None, None, None, None, None, None, None, "king"],
+                       [None, None, None, None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None, None],
+                       [None, None, None, None, None, None]]
+
+def load_image(name, colorkey=None):
+    fullname = name
+    try:
+        image = pygame.image.load(fullname)
+    except pygame.error as message:
+        print('Cannot load image:', name)
+        raise SystemExit(message)
+    image = image.convert_alpha()
+
+    if colorkey is not None:
+        if colorkey is -1:
+            colorkey = image.get_at((0, 0))
+        image.set_colorkey(colorkey)
+    return image
+
+
+class chest(pygame.sprite.Sprite):
+    blue =  pygame.transform.scale(load_image("blue.png"), (50, 50))
+    green = pygame.transform.scale(load_image("green.png"), (50, 50))
+    red = pygame.transform.scale(load_image("red.png"), (50, 50))
+    
+    image_king_black_blue = pygame.transform.scale(load_image("image_king_black_blue.png"), (50, 50))
+    image_king_white_blue = pygame.transform.scale(load_image("image_king_white_blue.png"), (50, 50))
+    image_king_black_green = pygame.transform.scale(load_image("image_king_black_green.png"), (50, 50))
+    image_king_white_green = pygame.transform.scale(load_image("image_king_white_green.png"), (50, 50))
+    image_king_black_red = pygame.transform.scale(load_image("image_king_black_red.png"), (50, 50))
+    image_king_white_red = pygame.transform.scale(load_image("image_king_white_red.png"), (50, 50))
+    
+    image_bishop_black_blue = pygame.transform.scale(load_image("image_bishop_black_blue.png"), (50, 50))
+    image_bishop_white_blue = pygame.transform.scale(load_image("image_bishop_white_blue.png"), (50, 50))
+    image_bishop_black_green = pygame.transform.scale(load_image("image_bishop_black_green.png"), (50, 50))
+    image_bishop_white_green = pygame.transform.scale(load_image("image_bishop_white_green.png"), (50, 50))
+    image_bishop_black_red = pygame.transform.scale(load_image("image_bishop_black_red.png"), (50, 50))
+    image_bishop_white_red = pygame.transform.scale(load_image("image_bishop_white_red.png"), (50, 50))
+    
+    image_queen_black_blue = pygame.transform.scale(load_image("image_queen_black_blue.png"), (50, 50))
+    image_queen_white_blue = pygame.transform.scale(load_image("image_queen_white_blue.png"), (50, 50))
+    image_queen_black_green = pygame.transform.scale(load_image("image_queen_black_green.png"), (50, 50))
+    image_queen_white_green = pygame.transform.scale(load_image("image_queen_white_green.png"), (50, 50))
+    image_queen_black_red = pygame.transform.scale(load_image("image_queen_black_red.png"), (50, 50))
+    image_queen_white_red = pygame.transform.scale(load_image("image_queen_white_red.png"), (50, 50))
+    
+    image_pawn_black_blue = pygame.transform.scale(load_image("image_pawn_black_blue.png"), (50, 50))
+    image_pawn_white_blue = pygame.transform.scale(load_image("image_pawn_white_blue.png"), (50, 50))
+    image_pawn_black_green = pygame.transform.scale(load_image("image_pawn_black_green.png"), (50, 50))
+    image_pawn_white_green = pygame.transform.scale(load_image("image_pawn_white_green.png"), (50, 50))
+    image_pawn_black_red = pygame.transform.scale(load_image("image_pawn_black_red.png"), (50, 50))
+    image_pawn_white_red = pygame.transform.scale(load_image("image_pawn_white_red.png"), (50, 50))
+    
+    image_knight_black_blue = pygame.transform.scale(load_image("image_knight_black_blue.png"), (50, 50))
+    image_knight_white_blue = pygame.transform.scale(load_image("image_knight_white_blue.png"), (50, 50))
+    image_knight_black_green = pygame.transform.scale(load_image("image_knight_black_green.png"), (50, 50))
+    image_knight_white_green = pygame.transform.scale(load_image("image_knight_white_green.png"), (50, 50))
+    image_knight_black_red = pygame.transform.scale(load_image("image_knight_black_red.png"), (50, 50))
+    image_knight_white_red = pygame.transform.scale(load_image("image_knight_white_red.png"), (50, 50))
+    
+    image_rook_black_blue = pygame.transform.scale(load_image("image_rook_black_blue.png"), (50, 50))
+    image_rook_white_blue = pygame.transform.scale(load_image("image_rook_white_blue.png"), (50, 50))
+    image_rook_black_green = pygame.transform.scale(load_image("image_rook_black_green.png"), (50, 50))
+    image_rook_white_green = pygame.transform.scale(load_image("image_rook_white_green.png"), (50, 50))
+    image_rook_black_red = pygame.transform.scale(load_image("image_rook_black_red.png"), (50, 50))
+    image_rook_white_red = pygame.transform.scale(load_image("image_rook_white_red.png"), (50, 50))
+    
+    
+    
+    def __init__(self, group):
+        # НЕОБХОДИМО вызвать конструктор родительского класса Sprite
+        super().__init__(group)
+        self.image_blue =  pygame.transform.scale(load_image("blue.png"), (50, 50))
+        self.image_green = pygame.transform.scale(load_image("green.png"), (50, 50))
+        self.image_red = pygame.transform.scale(load_image("red.png"), (50, 50))
+        
+        self.image_king_black_blue = pygame.transform.scale(load_image("image_king_black_blue.png"), (50, 50))
+        self.image_king_white_blue = pygame.transform.scale(load_image("image_king_white_blue.png"), (50, 50))
+        self.image_king_black_green = pygame.transform.scale(load_image("image_king_black_green.png"), (50, 50))
+        self.image_king_white_green = pygame.transform.scale(load_image("image_king_white_green.png"), (50, 50))
+        self.image_king_black_red = pygame.transform.scale(load_image("image_king_black_red.png"), (50, 50))
+        self.image_king_white_red = pygame.transform.scale(load_image("image_king_white_red.png"), (50, 50))
+        
+        self.image_bishop_black_blue = pygame.transform.scale(load_image("image_bishop_black_blue.png"), (50, 50))
+        self.image_bishop_white_blue = pygame.transform.scale(load_image("image_bishop_white_blue.png"), (50, 50))
+        self.image_bishop_black_green = pygame.transform.scale(load_image("image_bishop_black_green.png"), (50, 50))
+        self.image_bishop_white_green = pygame.transform.scale(load_image("image_bishop_white_green.png"), (50, 50))
+        self.image_bishop_black_red = pygame.transform.scale(load_image("image_bishop_black_red.png"), (50, 50))
+        self.image_bishop_white_red = pygame.transform.scale(load_image("image_bishop_white_red.png"), (50, 50))
+        
+        self.image_queen_black_blue = pygame.transform.scale(load_image("image_queen_black_blue.png"), (50, 50))
+        self.image_queen_white_blue = pygame.transform.scale(load_image("image_queen_white_blue.png"), (50, 50))
+        self.image_queen_black_green = pygame.transform.scale(load_image("image_queen_black_green.png"), (50, 50))
+        self.image_queen_white_green = pygame.transform.scale(load_image("image_queen_white_green.png"), (50, 50))
+        self.image_queen_black_red = pygame.transform.scale(load_image("image_queen_black_red.png"), (50, 50))
+        self.image_queen_white_red = pygame.transform.scale(load_image("image_queen_white_red.png"), (50, 50))
+        
+        self.image_pawn_black_blue = pygame.transform.scale(load_image("image_pawn_black_blue.png"), (50, 50))
+        self.image_pawn_white_blue = pygame.transform.scale(load_image("image_pawn_white_blue.png"), (50, 50))
+        self.image_pawn_black_green = pygame.transform.scale(load_image("image_pawn_black_green.png"), (50, 50))
+        self.image_pawn_white_green = pygame.transform.scale(load_image("image_pawn_white_green.png"), (50, 50))
+        self.image_pawn_black_red = pygame.transform.scale(load_image("image_pawn_black_red.png"), (50, 50))
+        self.image_pawn_white_red = pygame.transform.scale(load_image("image_pawn_white_red.png"), (50, 50))
+        
+        self.image_knight_black_blue = pygame.transform.scale(load_image("image_knight_black_blue.png"), (50, 50))
+        self.image_knight_white_blue = pygame.transform.scale(load_image("image_knight_white_blue.png"), (50, 50))
+        self.image_knight_black_green = pygame.transform.scale(load_image("image_knight_black_green.png"), (50, 50))
+        self.image_knight_white_green = pygame.transform.scale(load_image("image_knight_white_green.png"), (50, 50))
+        self.image_knight_black_red = pygame.transform.scale(load_image("image_knight_black_red.png"), (50, 50))
+        self.image_knight_white_red = pygame.transform.scale(load_image("image_knight_white_red.png"), (50, 50))
+        
+        self.image_rook_black_blue = pygame.transform.scale(load_image("image_rook_black_blue.png"), (50, 50))
+        self.image_rook_white_blue = pygame.transform.scale(load_image("image_rook_white_blue.png"), (50, 50))
+        self.image_rook_black_green = pygame.transform.scale(load_image("image_rook_black_green.png"), (50, 50))
+        self.image_rook_white_green = pygame.transform.scale(load_image("image_rook_white_green.png"), (50, 50))
+        self.image_rook_black_red = pygame.transform.scale(load_image("image_rook_black_red.png"), (50, 50))
+        self.image_rook_white_red = pygame.transform.scale(load_image("image_rook_white_red.png"), (50, 50))        
+        self.rect = self.image.get_rect()
+        
+        
+        #здесь их расположение, я старался
+        for i in range(11):
+            for l in range(len(x[i])):
+                if (i + l) % 3 == 0:
+                    block = self.image_blue
+                elif (i + l) % 3 == 1:
+                    block = self.image_green
+                else:
+                    block =  self.image_red
+                if x[i][l] == "king":
+                    block == self.image_king_white_red
+                # Задать случайное местоположение блоку
+                block.rect.x = i * 50
+                block.rect.y = l * 50
+                         
+                # Добавить блок в список объектов
+                block_list.add(block)
+                all_sprites_list.add(block)
+                  
+       # фигуры ставятся здесь, не могу щас найти кусок, который у тебя писал, по нему надо пройтись и все
+    # Поручим бомбочке получать событие и взрываться самой
+    def get_event(self, event):
+        koef = 1
+        img = 0
+        if koef == 0 and  self.rect.collidepoint(event.pos):
+            img = self.image 
+        elif self.rect.collidepoint(event.pos):
+            self.image = img
+            koef = 0
+
+
+# группа, содержащая все спрайты
+all_sprites = pygame.sprite.Group()
+
+for i in range(20):
+    # нам уже не нужно даже имя объекта!
+    chest(all_sprites)
+    
+for i in range(1):
+    chest(all_sprites)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or king == "dead":
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i in all_sprites:
+                i.get_event(event)
+    screen.fill(pygame.Color("black"))
+    all_sprites.draw(screen)
+    pygame.display.flip()
+
+pygame.quit()
